@@ -1,6 +1,6 @@
 import pandas as pd
 from stog.data.dataset_readers.amr_parsing.io import AMRIO
-from util.amr import dump_amr_features
+from utils.amr import dump_amr_features
 
 def create_dependency_parser_feature(annotation, sentence, sentence_id=0):
 

@@ -1,5 +1,5 @@
 import sys
-from util.argument_parser import parse_arguments
+from utils.argument_parser import parse_arguments
 import warnings
 warnings.filterwarnings("ignore")
 

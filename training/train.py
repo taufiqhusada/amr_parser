@@ -7,7 +7,7 @@ from feature_generation.dependency_pair import create_dependency_parser_feature_
 from feature_generation.amr_pair import get_amr_data, create_pair_labels, create_labels
 
 from preprocessing.model_feature import filter_pair
-from util.word_vec import load_word_vec
+from utils.word_vec import load_word_vec
 
 def init_experiment_params():
     experiment_params = []

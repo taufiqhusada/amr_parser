@@ -4,7 +4,7 @@ import string
 
 from collections import defaultdict
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-from util.ner.entity_recognizer import get_entities
+from utils.ner.entity_recognizer import get_entities
 
 class FeatureAnnotator:
     def __init__(self):

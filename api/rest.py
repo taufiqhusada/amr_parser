@@ -3,8 +3,8 @@ import base64
 from flask import Flask
 from flask import request, jsonify, make_response
 from flask_cors import CORS
-from prediction.predict import predict_from_sentence
-from util.amr import penman_to_dot
+from prediction.predict import predict_and_process, process_sentence
+from utils.amr import penman_to_dot
 
 app = Flask(__name__)
 CORS(app)
@@ -14,16 +14,18 @@ def predict_sentence():
     path = "api/output/amr"
     sentence = request.args.get('sentence')
     try:
-        amr_graph = predict_from_sentence(sentence)
-    except:
+        filtered_X = process_sentence(sentence)
+        amr_graph = predict_and_process(filtered_X)
+    except Exception as e:
+        print(e)
         return make_response("Error", 400)
-
-
+    features = json.dumps(list(filtered_X.T.to_dict().values()))
     response = {}
     response['amr_graph'] = str(amr_graph)
     response['triples'] = amr_graph._triples
     response['edges'] = amr_graph.edges()
     response['top'] = amr_graph._top
+    response['features'] = json.loads(features)
 
 
     response['dot'] = penman_to_dot(amr_graph, path)
