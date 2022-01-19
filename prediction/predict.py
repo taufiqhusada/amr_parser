@@ -10,6 +10,8 @@ from preprocessing.model_feature import feature_selection, preprocess, filter_pa
 # Post process
 from postprocess.amr_graph import create_pediction_dict, create_amr_graph_from_prediction
 
+from tqdm import tqdm
+
 annotator = FeatureAnnotator()
 model = load_model(PRETRAINED_BEST_MODEL_PATH)
 word_vec = load_word_vec()
@@ -55,17 +57,23 @@ def predict_from_sentence(sentence):
     return amr_graph
 
 def predict_from_file(filepath):
-    amr_graphs = []
-    sentences = []
+    list_pair_sentence_amr = []
 
     with open(filepath, 'r') as input_file:
         lines = input_file.readlines()
-        lines = filter(lambda x: x != '\n', lines)
-        for line in lines:
-            if len(line) > 0 and line is not None and len(line.split('.')) == 2:
-                print(line)
-                sentences.append(line)
-                amr_graph = predict_sentence(line)
-                amr_graphs.append(amr_graph)
+        # lines = filter(lambda x: x != '\n', lines)
+        for i,line in tqdm(enumerate(lines)):
+            if len(line) > 0 and line is not None and line != '\n' and len(line.split('.')) == 2:
+                amr_graph = None
+                try:
+                    amr_graph = predict_sentence(line)
+                except Exception as e:
+                    print(e)
 
-    return sentences, amr_graphs
+                list_pair_sentence_amr.append((line, amr_graph))
+                if (i==0):  # sample
+                    print(line)
+                    print(str(amr_graph))
+                
+
+    return list_pair_sentence_amr

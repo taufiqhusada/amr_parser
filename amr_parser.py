@@ -24,11 +24,11 @@ if __name__ == "__main__":
                 sys.exit(1)
             elif sentence is not None:
                 amr_graph = predict_from_sentence(sentence)
-                save_amr_graphs([sentence], [amr_graph], output_path)
+                save_amr_graphs([(sentence, amr_graph)], output_path)
 
             else:
-                sentences, amr_graphs = predict_from_file(filepath)
-                save_amr_graphs(sentences, amr_graphs, output_path)
+                list_pair_sentence_amr = predict_from_file(filepath)
+                save_amr_graphs(list_pair_sentence_amr, output_path)
 
         if args.train:
             if filepath is None:

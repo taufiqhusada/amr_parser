@@ -102,15 +102,17 @@ def create_amr_graph_from_prediction(prediction):
     
     return graph
 
-def save_amr_graphs(sentences, amr_graphs, filepath):
-    sentence_graph_pair = zip(sentences, amr_graphs)
+def save_amr_graphs(list_pair_sentence_amr, filepath):
+    id_now = 1
     with open(filepath, 'w+', encoding='utf-8') as f:
-        for sentence, amr_graph in sentence_graph_pair:
-            try:                
-                f.write("# ::snt {}".format(sentence))
-                f.write('\n')
+        for sentence, amr_graph in list_pair_sentence_amr:
+            try:               
+                f.write("# ::id {}\n".format(id_now))
+                id_now+=1
+
+                f.write("# ::snt {}\n".format(sentence))
                 f.write(str(amr_graph))
-                f.write('\n\n')
             except Exception as e:
                 print(amr_graph._triples)
                 print(sentence)
+            f.write('\n\n')
